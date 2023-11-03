@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  instantio:
+    restart: always
+    image: htetlinmaung/instantio
+    ports:
+      - "3000:3000"
+    environment:
+      TOKEN_VERIFICATION_WEB_HOOK: "http://example.com/verify"
+      SOCKETIO_NAMESPACE: "/myNamespace"
+      INSTANTIO_WEB_HOOK: "http://example.com/instantio"
+    volumes:
+      - ./socketio.config.js:/usr/src/app/socketio.config.js
