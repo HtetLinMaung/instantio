@@ -3,6 +3,7 @@ const { getIO } = require("../utils/socket");
 module.exports = async (req, res) => {
   try {
     const { event, payload, rooms } = req.body;
+    console.log(`Server emitting ${JSON.stringify(req.body)}`);
 
     const io = getIO();
     if (!rooms || (Array.isArray(rooms) && !rooms.length)) {

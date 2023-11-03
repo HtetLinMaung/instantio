@@ -5,6 +5,11 @@ module.exports = (socket) => (data) => {
   try {
     const { rooms, payload } = data;
     socket.to(rooms).emit("message", payload);
+    console.log(
+      `room ${
+        socketid_map[socket.id]
+      } emitted message event with data: ${JSON.stringify(data)}`
+    );
     updateState("message", {
       from: socketid_map[socket.id],
       to: rooms,

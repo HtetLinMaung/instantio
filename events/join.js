@@ -9,6 +9,7 @@ module.exports = (socket) => (data) => {
     if (valid) {
       socket.join(valid.room);
       socketid_map[socket.id] = valid.room;
+      console.log(`User joined to room ${valid.room}`);
       updateState("join", { room: valid.room });
     } else {
       socket.disconnect();
@@ -16,6 +17,7 @@ module.exports = (socket) => (data) => {
   } else {
     socket.join(room);
     socketid_map[socket.id] = room;
+    console.log(`User joined to room ${room}`);
     updateState("join", { room });
   }
 };
