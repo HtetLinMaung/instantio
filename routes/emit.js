@@ -1,10 +1,12 @@
+const { log } = require("starless-logger");
 const { getIO } = require("../utils/socket");
 
 module.exports = async (req, res) => {
   try {
     const { event, payload, rooms } = req.body;
-    console.log(`Server emitting ${JSON.stringify(req.body)}`);
-
+    log(`Server emitting ${JSON.stringify(req.body)}`, "info", {
+      timestampFormat: "DD/mm/yyyy hh:mm:ss a",
+    });
     const io = getIO();
     if (!rooms || (Array.isArray(rooms) && !rooms.length)) {
       io.emit(event, payload);

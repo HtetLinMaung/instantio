@@ -1,3 +1,4 @@
+const { log } = require("starless-logger");
 const { TOKEN_VERIFICATION_WEB_HOOK, socketid_map } = require("../constants");
 const { isTokenValid } = require("../utils/auth");
 const updateState = require("../utils/update-state");
@@ -9,7 +10,9 @@ module.exports = (socket) => async (data) => {
     if (room) {
       socket.join(room);
       socketid_map[socket.id] = room;
-      console.log(`User joined to room ${room}`);
+      log(`User joined to room ${room}`, "info", {
+        timestampFormat: "DD/mm/yyyy hh:mm:ss a",
+      });
       updateState("join", { room });
     } else {
       socket.disconnect();
@@ -17,7 +20,9 @@ module.exports = (socket) => async (data) => {
   } else {
     socket.join(room);
     socketid_map[socket.id] = room;
-    console.log(`User joined to room ${room}`);
+    log(`User joined to room ${room}`, "info", {
+      timestampFormat: "DD/mm/yyyy hh:mm:ss a",
+    });
     updateState("join", { room });
   }
 };

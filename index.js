@@ -10,6 +10,7 @@ const join = require("./events/join");
 const emit = require("./routes/emit");
 const disconnect = require("./events/disconnect");
 const message = require("./events/message");
+const { log } = require("starless-logger");
 
 const app = express();
 
@@ -37,4 +38,8 @@ io.engine.on("connection_error", (err) => {
   console.log(err.context); // some additional error context
 });
 
-httpServer.listen(PORT, () => console.log(`Server listening on ${PORT}`));
+httpServer.listen(PORT, () =>
+  log(`Server listening on ${PORT}`, "info", {
+    timestampFormat: "DD/mm/yyyy hh:mm:ss a",
+  })
+);
