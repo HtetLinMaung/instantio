@@ -7,7 +7,7 @@ exports.isTokenValid = async (token) => {
     console.log(
       `TOKEN_VERIFICATION_WEB_HOOK response: ${JSON.stringify(res.data)}`
     );
-    if (res.code == 200) {
+    if (res.data.code == 200) {
       return res.data.data.room;
     }
     return null;
