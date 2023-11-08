@@ -7,10 +7,11 @@ module.exports = async (req, res) => {
   try {
     const { event, payload, rooms } = req.body;
     const wait_client_ack = req.body.wait_client_ack || false;
+    const namespace = req.body.namespace || "/";
     log(`Server emitting ${JSON.stringify(req.body)}`, "info", {
       timestampFormat: "DD/mm/yyyy hh:mm:ss a",
     });
-    const io = getIO();
+    const io = getIO(namespace);
     if (!rooms || (Array.isArray(rooms) && !rooms.length)) {
       io.emit(event, payload);
     } else {
