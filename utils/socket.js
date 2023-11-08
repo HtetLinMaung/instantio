@@ -1,5 +1,4 @@
 const { Server } = require("socket.io");
-const { SOCKETIO_NAMESPACE } = require("../constants");
 
 let io;
 
@@ -10,12 +9,12 @@ exports.initSocketIO = (httpServer, options = {}) => {
     },
     ...options,
   });
-  if (SOCKETIO_NAMESPACE) {
-    io = io.of(SOCKETIO_NAMESPACE);
-  }
   return io;
 };
 
-exports.getIO = () => {
-  return io;
+exports.getIO = (namespace = "/") => {
+  if (namespace == "/") {
+    return io;
+  }
+  return io.of(namespace);
 };

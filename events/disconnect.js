@@ -2,9 +2,11 @@ const { log } = require("starless-logger");
 const { socketid_map } = require("../constants");
 const updateState = require("../utils/update-state");
 
-module.exports = (socket) => (reason) => {
+module.exports = (socket, namespace) => (reason) => {
   log(
-    `room ${socketid_map[socket.id]} disconnected with reason: ${reason}`,
+    `[${namespace}] room ${
+      socketid_map[socket.id]
+    } disconnected with reason: ${reason}`,
     "info",
     {
       timestampFormat: "DD/mm/yyyy hh:mm:ss a",

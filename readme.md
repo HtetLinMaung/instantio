@@ -29,7 +29,7 @@ services:
     environment:
       PORT: 3000
       TOKEN_VERIFICATION_WEB_HOOK: "http://web:8080/api/auth/verify-token"
-      SOCKETIO_NAMESPACE: "/instantio"
+      SOCKETIO_NAMESPACES: "/instantio,/admin"
       INSTANTIO_WEB_HOOK: "http://web:8080/api/instantio/hook"
       TZ: "Asia/Yangon"
 ```
@@ -62,13 +62,15 @@ This endpoint allows the server to emit an event to all clients in specified roo
   "rooms": [1],
   "payload": {
     "message_id": 1
-  }
+  },
+  "wait_client_ack": false
 }
 ```
 
 - `event`: The event type to emit.
 - `rooms`: An array of room identifiers to which the event should be sent.
 - `payload`: The data to be transmitted with the event.
+- `wait_client_ack`: Wait for client acknowledgement.
 
 ### Usage Example
 

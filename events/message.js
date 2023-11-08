@@ -2,12 +2,12 @@ const { log } = require("starless-logger");
 const { socketid_map } = require("../constants");
 const updateState = require("../utils/update-state");
 
-module.exports = (socket) => (data) => {
+module.exports = (socket, namespace) => (data) => {
   try {
     const { rooms, payload } = data;
     socket.to(rooms).emit("message", payload);
     log(
-      `room ${
+      `[${namespace}] room ${
         socketid_map[socket.id]
       } emitted message event with data: ${JSON.stringify(data)}`,
       "info",
