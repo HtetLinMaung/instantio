@@ -7,6 +7,25 @@ module.exports = async (req, res) => {
   try {
     const { event, payload, rooms } = req.body;
     const wait_client_ack = req.body.wait_client_ack || false;
+
+    if (wait_client_ack) {
+      const timeoutId = setTimeout(() => {
+        eventEmitter.removeListener(event);
+        res.status(408).json({
+          code: 408,
+          message: "Timeout waiting!",
+        });
+      }, WAIT_TIMEOUT);
+      eventEmitter.once(event, (data) => {
+        clearTimeout(timeoutId);
+        res.json({
+          code: 200,
+          message: "Event delivered successfully",
+          data,
+        });
+      });
+    }
+
     const namespace = req.body.namespace || "/";
     log(`Server emitting ${JSON.stringify(req.body)}`, "info", {
       timestampFormat: "DD/mm/yyyy hh:mm:ss a",
@@ -18,22 +37,7 @@ module.exports = async (req, res) => {
       io.to(rooms).emit(event, payload);
     }
 
-    if (wait_client_ack) {
-      const timeoutId = setTimeout(() => {
-        eventEmitter.removeListener(event);
-        res.status(408).json({
-          code: 408,
-          message: "Timeout waiting!",
-        });
-      }, WAIT_TIMEOUT);
-      eventEmitter.once(event, () => {
-        clearTimeout(timeoutId);
-        res.json({
-          code: 200,
-          message: "Event delivered successfully",
-        });
-      });
-    } else {
+    if (!wait_client_ack) {
       res.json({
         code: 200,
         message: "Event emitted successfully",
